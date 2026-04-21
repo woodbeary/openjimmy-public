@@ -1,0 +1,15 @@
+{
+  "id": "imessage-legacy",
+  "name": "OpenJimmy - iMessage Legacy",
+  "version": "1.0.0",
+  "description": "iMessage channel for macOS 11+ (Big Sur, Monterey, Ventura, Sonoma) using SQLite polling + AppleScript. No imsg CLI required.",
+  "main": "index.js",
+  "channels": ["imessage-legacy"],
+  "configSchema": {
+    "type": "object",
+    "properties": {}
+  },
+  "author": "woodbeary",
+  "license": "MIT",
+  "homepage": "https://github.com/woodbeary/openjimmy-public"
+}

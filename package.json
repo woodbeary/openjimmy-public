@@ -1,0 +1,32 @@
+{
+  "name": "openjimmy-public",
+  "version": "1.0.1",
+  "description": "macOS iMessage plugin using local SQLite polling and AppleScript delivery",
+  "main": "index.js",
+  "type": "module",
+  "bin": {
+    "openjimmy-setup": "./setup.js"
+  },
+  "scripts": {
+    "setup": "node setup.js",
+    "postinstall": "echo '\\n✨ Run: pnpm setup\\n'"
+  },
+  "keywords": ["openclaw", "imessage", "macos", "channel", "plugin", "messages", "sms"],
+  "author": "woodbeary",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/woodbeary/openjimmy-public.git"
+  },
+  "homepage": "https://github.com/woodbeary/openjimmy-public#readme",
+  "bugs": {
+    "url": "https://github.com/woodbeary/openjimmy-public/issues"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "os": ["darwin"]
+}
