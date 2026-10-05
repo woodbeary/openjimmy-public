@@ -1,10 +1,11 @@
-# OpenJimmy Public
+# OpenJimmy
+
+The iMessage channel I wrote for [OpenClaw](https://github.com/openclaw/openclaw) agents in January 2026. TXT CLAW used it to let people text their always-on agent over iMessage; see the [TXT CLAW → Rotary showcase](https://github.com/woodbeary/rotary).
 
 macOS iMessage plugin built around local SQLite polling and AppleScript delivery.
 
 Stack: Node.js, better-sqlite3, AppleScript, macOS system permissions  
 I owned: local Messages integration, polling loop, dedupe behavior, setup flow, and plugin packaging  
-Origin Lab relevance: local-system integration, permissions, process boundaries, reliability on end-user machines, and plugin-style ownership
 
 ## What It Does
 
