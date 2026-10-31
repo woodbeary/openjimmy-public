@@ -132,6 +132,37 @@ async function installDependencies() {
   }
 }
 
+// Drop the imessage-legacy key and every line indented under it, so an
+// update doesn't leave its old settings attached to the channel above it.
+function removeImessageLegacyBlock(config) {
+  const kept = [];
+  let blankLines = [];
+  let blockIndent = -1;
+  for (const line of config.split('\n')) {
+    const indent = line.length - line.trimStart().length;
+    if (blockIndent >= 0) {
+      if (line.trim() === '') {
+        blankLines.push(line);
+        continue;
+      }
+      if (indent > blockIndent) {
+        blankLines = [];
+        continue;
+      }
+      kept.push(...blankLines);
+      blankLines = [];
+      blockIndent = -1;
+    }
+    if (/^\s*imessage-legacy:\s*$/.test(line)) {
+      blockIndent = indent;
+      continue;
+    }
+    kept.push(line);
+  }
+  kept.push(...blankLines);
+  return kept.join('\n');
+}
+
 async function configureOpenClaw() {
   log.step(3, 'Configuring OpenClaw...');
   
@@ -218,10 +249,10 @@ ${colors.dim}─────────────────────${co
         // Simple append if channels section exists
         if (existingConfig.includes('channels:')) {
           // Remove existing imessage-legacy block if present
-          let newConfig = existingConfig.replace(/\n\s*imessage-legacy:[\s\S]*?(?=\n\s*\w+:|$)/g, '');
+          let newConfig = removeImessageLegacyBlock(existingConfig);
           
           // Find channels section and add our config
-          const channelsMatch = newConfig.match(/^channels:\s*$/m);
+          const channelsMatch = newConfig.match(/^channels:[ \t]*$/m);
           if (channelsMatch) {
             const insertPos = channelsMatch.index + channelsMatch[0].length;
             const indent = '  ';

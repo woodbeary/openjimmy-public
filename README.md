@@ -22,8 +22,10 @@ No cloud relay is required. The whole flow runs on the Mac.
 git clone https://github.com/woodbeary/openjimmy-public.git
 cd openjimmy-public
 pnpm install
-pnpm setup
+pnpm run setup
 ```
+
+Use `pnpm run setup`: a bare `pnpm setup` runs pnpm's own setup command instead of this wizard.
 
 The setup wizard checks:
 
@@ -43,7 +45,6 @@ channels:
       - "+19995551234"
       - "+19995555678"
     pollIntervalMs: 2000
-    debug: false
 ```
 
 ## How It Works

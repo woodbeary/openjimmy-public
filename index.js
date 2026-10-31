@@ -70,9 +70,14 @@ function normalizePhone(phone) {
 }
 
 // Older versions of the setup wizard wrote ownerNumbers/allowedNumbers and
-// pollInterval. Keep reading them so those configs still work.
+// pollInterval, and no enabled flag. Keep reading them, and treat such a
+// config as enabled unless it says enabled: false, so those configs still work.
 function resolveAllowFrom(c) {
   return c.allowFrom ?? [...(c.ownerNumbers ?? []), ...(c.allowedNumbers ?? [])];
+}
+
+function isEnabled(c) {
+  return c.enabled ?? Boolean(c.ownerNumbers || c.allowedNumbers);
 }
 
 function isAllowed(sender, allowFrom) {
@@ -282,10 +287,10 @@ const channel = {
   reload: { configPrefixes: ["channels.imessage-legacy"] },
   
   config: {
-    listAccountIds: (cfg) => cfg.channels?.["imessage-legacy"]?.enabled ? ["default"] : [],
+    listAccountIds: (cfg) => isEnabled(cfg.channels?.["imessage-legacy"] ?? {}) ? ["default"] : [],
     resolveAccount: (cfg, accountId = "default") => {
       const c = cfg.channels?.["imessage-legacy"] ?? {};
-      return { accountId, enabled: c.enabled ?? false, configured: Boolean(c.enabled),
+      return { accountId, enabled: isEnabled(c), configured: isEnabled(c),
         config: { 
           pollIntervalMs: c.pollIntervalMs ?? c.pollInterval ?? 1000, 
           dmPolicy: c.dmPolicy ?? "allowlist", 

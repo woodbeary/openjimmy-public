@@ -9,7 +9,7 @@
   },
   "scripts": {
     "setup": "node setup.js",
-    "postinstall": "echo '\\n✨ Run: pnpm setup\\n'"
+    "postinstall": "echo '\\n✨ Run: pnpm run setup\\n'"
   },
   "keywords": ["openclaw", "imessage", "macos", "channel", "plugin", "messages", "sms"],
   "author": "woodbeary",
