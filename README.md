@@ -1,6 +1,6 @@
 # OpenJimmy
 
-The iMessage channel I wrote for [OpenClaw](https://github.com/openclaw/openclaw) agents in January 2026. TXT CLAW used it to let people text their always-on agent over iMessage; see the [TXT CLAW → Rotary showcase](https://github.com/woodbeary/rotary).
+The iMessage channel I wrote for [OpenClaw](https://github.com/openclaw/openclaw) agents in January 2026. TXT CLAW, my always-on agent product, didn't use it: TXT CLAW reached Apple users through Apple Messages for Business. See the [TXT CLAW → Rotary showcase](https://github.com/woodbeary/rotary).
 
 macOS iMessage plugin built around local SQLite polling and AppleScript delivery.
 
@@ -38,11 +38,11 @@ The setup wizard checks:
 channels:
   imessage-legacy:
     plugin: "/absolute/path/to/openjimmy-public"
-    ownerNumbers:
+    enabled: true
+    allowFrom:
       - "+19995551234"
-    allowedNumbers:
       - "+19995555678"
-    pollInterval: 2000
+    pollIntervalMs: 2000
     debug: false
 ```
 

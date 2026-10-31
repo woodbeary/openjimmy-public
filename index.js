@@ -69,6 +69,12 @@ function normalizePhone(phone) {
   return "+" + n;
 }
 
+// Older versions of the setup wizard wrote ownerNumbers/allowedNumbers and
+// pollInterval. Keep reading them so those configs still work.
+function resolveAllowFrom(c) {
+  return c.allowFrom ?? [...(c.ownerNumbers ?? []), ...(c.allowedNumbers ?? [])];
+}
+
 function isAllowed(sender, allowFrom) {
   if (!sender || allowFrom.length === 0) return false;
   if (allowFrom.includes("*")) return true;
@@ -281,16 +287,16 @@ const channel = {
       const c = cfg.channels?.["imessage-legacy"] ?? {};
       return { accountId, enabled: c.enabled ?? false, configured: Boolean(c.enabled),
         config: { 
-          pollIntervalMs: c.pollIntervalMs ?? 1000, 
+          pollIntervalMs: c.pollIntervalMs ?? c.pollInterval ?? 1000, 
           dmPolicy: c.dmPolicy ?? "allowlist", 
-          allowFrom: c.allowFrom ?? [],
+          allowFrom: resolveAllowFrom(c),
           includeTapbacks: c.includeTapbacks ?? true,
           resolveContactNames: c.resolveContactNames ?? true
         }
       };
     },
     defaultAccountId: () => "default",
-    resolveAllowFrom: ({ cfg }) => cfg.channels?.["imessage-legacy"]?.allowFrom ?? [],
+    resolveAllowFrom: ({ cfg }) => resolveAllowFrom(cfg.channels?.["imessage-legacy"] ?? {}),
   },
   
   security: { resolveDmPolicy: ({ account }) => ({ policy: account.config.dmPolicy ?? "allowlist", allowFrom: account.config.allowFrom ?? [] }) },

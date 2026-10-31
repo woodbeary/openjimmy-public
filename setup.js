@@ -183,11 +183,13 @@ Format: +1XXXXXXXXXX (include country code)
 # Add this to your ~/.openclaw/config.yaml under 'channels:'
 imessage-legacy:
   plugin: "${__dirname}"
-  ownerNumbers:
+  enabled: true
+  allowFrom:
     - "${phoneNumber}"
-  # Optional: add more numbers that can message the bot
-  # allowedNumbers:
-  #   - "+1234567890"
+    # Optional: add more numbers that can message the bot
+    # - "+1234567890"
+  # Optional: how often to check for new messages, in milliseconds
+  # pollIntervalMs: 1000
 `;
 
   console.log(`
@@ -223,7 +225,7 @@ ${colors.dim}─────────────────────${co
           if (channelsMatch) {
             const insertPos = channelsMatch.index + channelsMatch[0].length;
             const indent = '  ';
-            const indentedSnippet = `\n${indent}imessage-legacy:\n${indent}  plugin: "${__dirname}"\n${indent}  ownerNumbers:\n${indent}    - "${phoneNumber}"`;
+            const indentedSnippet = `\n${indent}imessage-legacy:\n${indent}  plugin: "${__dirname}"\n${indent}  enabled: true\n${indent}  allowFrom:\n${indent}    - "${phoneNumber}"`;
             newConfig = newConfig.slice(0, insertPos) + indentedSnippet + newConfig.slice(insertPos);
           }
           
@@ -231,7 +233,7 @@ ${colors.dim}─────────────────────${co
           log.success('Config updated!');
         } else {
           // Append channels section
-          const appendConfig = `\nchannels:\n  imessage-legacy:\n    plugin: "${__dirname}"\n    ownerNumbers:\n      - "${phoneNumber}"\n`;
+          const appendConfig = `\nchannels:\n  imessage-legacy:\n    plugin: "${__dirname}"\n    enabled: true\n    allowFrom:\n      - "${phoneNumber}"\n`;
           writeFileSync(configPath, existingConfig + appendConfig);
           log.success('Config updated!');
         }
